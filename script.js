@@ -53,6 +53,7 @@ function getOneEpisode(allEpisodes) {
     // episode summary
     const episodeSummary = document.createElement("div");
     episodeSummary.innerHTML = episode.summary;
+    episodeSummary.classList.add("episode-summary");
     mainDiv.appendChild(episodeSummary);
     // mainDiv.appendChild(document.createElement("br"));
   }
