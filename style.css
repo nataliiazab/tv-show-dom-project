@@ -1,3 +1,56 @@
+/* #root {
+  color: black;
+} */
+body {
+  background-color: #dddddd;
+}
 #root {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: 10px;
+}
+
+/* @media only screen and (max-width: 767px) {
+  #root {
+    grid-template-columns: repeat(1, 1fr);
+  }
+} */
+.episode {
+  max-width: 450px;
+  background-color: whitesmoke;
+  border-radius: 6px;
+  box-shadow: 0px 5px 1px #dddddd;
+  margin: 10px 10px;
+  padding: 10px 20px;
+  box-sizing: border-box;
+}
+/* .season-number {
   color: red;
+  font-weight: bold;
+} */
+
+.episode-number {
+  color: blue;
+  text-align: center;
+}
+
+.episode-title {
+  border: 2px solid black;
+  text-align: center;
+  padding: 5px auto;
+  height: 100px;
+}
+
+.episode-image-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.episode-image {
+  height: 200px;
+  width: 200px;
+  border-radius: 50%;
+  object-fit: cover;
+
+  
 }
