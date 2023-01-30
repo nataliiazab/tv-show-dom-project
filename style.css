@@ -23,7 +23,7 @@ body {
   margin: 10px 10px;
   padding: 10px 20px;
   box-sizing: border-box;
-  border-radius: 10px;
+  border-radius: 15px;
   border: 2px solid black;
 
   /* gradient border
@@ -40,6 +40,7 @@ body {
 
 .episode-title {
   border: 2px solid black;
+  border-radius: 20px;
   text-align: center;
   padding: 5px auto;
   height: 100px;

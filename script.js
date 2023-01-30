@@ -68,9 +68,14 @@ footerLink.href = "https://www.tvmaze.com/";
 footerLink.target = "_blank";
 footerLink.textContent = "© TVmaze.com";
 footer.appendChild(footerLink);
-// get.appendChild(footer);
 
-//
 
-// Your page should state somewhere that the data has (originally) come from TVMaze.com,
-// and link back to that site (or the specific episode on that site). See tvmaze.com/api#licensing.
+
+// Add a "live" search input:
+// Only episodes whose summary OR name contains the search term should be displayed
+// The search should be case-insensitive
+// The display should update immediately after each keystroke changes the input.
+// Display how many episodes match the current search
+// If the search box is cleared, all episodes should be shown.
+
+// https://syllabus.codeyourfuture.io/js-core-3/tv-show-dom-project/level-200
