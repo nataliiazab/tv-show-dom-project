@@ -12,7 +12,7 @@
 
 // window.onload = setup;
 
-let gameOfThronesEpisodes = getAllEpisodes();
+let gameOfThronesEpisodes;
 
 let rootElem = document.getElementById("root");
 
@@ -78,9 +78,35 @@ function getOneEpisode(allEpisodes) {
     mainDiv.appendChild(runTime);
   }
 }
+//search
+const searchButton = document.querySelector("#search-button");
+const searchInput = document.querySelector("#searchbar");
+const searchTerm = searchInput.value;
+
+//not working!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! how to update input value???
+
+if (searchTerm.length === 0) {
+  gameOfThronesEpisodes = getAllEpisodes();
+} else if (searchTerm.length > 0) {
+  let allEpisodes = getAllEpisodes();
+  let filteredEpisodes = allEpisodes.filter(
+    (episode) =>
+      episode.summary.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      episode.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+  gameOfThronesEpisodes = filteredEpisodes;
+}
 
 //calling the function with all episodes
 getOneEpisode(gameOfThronesEpisodes);
+
+// Only episodes whose summary OR name contains the search term should be displayed
+// The search should be case-insensitive
+// The display should update immediately after each keystroke changes the input.
+// Display how many episodes match the current search
+// If the search box is cleared, all episodes should be shown.
+
+// https://syllabus.codeyourfuture.io/js-core-3/tv-show-dom-project/level-200
 
 //footer
 const footer = document.createElement("footer");
@@ -90,15 +116,3 @@ footerLink.href = "https://www.tvmaze.com/";
 footerLink.target = "_blank";
 footerLink.textContent = "© TVmaze.com";
 footer.appendChild(footerLink);
-
-
-
-// Add a "live" search input:
-
-// Only episodes whose summary OR name contains the search term should be displayed
-// The search should be case-insensitive
-// The display should update immediately after each keystroke changes the input.
-// Display how many episodes match the current search
-// If the search box is cleared, all episodes should be shown.
-
-// https://syllabus.codeyourfuture.io/js-core-3/tv-show-dom-project/level-200
