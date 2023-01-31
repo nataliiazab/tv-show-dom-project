@@ -1,49 +1,71 @@
-/* #root {
-  color: black;
-} */
 body {
+  font-family: Garamond, serif;
   background-color: #dddddd;
+  max-width: 90%;
+  margin: 20px auto;
 }
+
+#project-title {
+  text-align: center;
+  font-size: calc(1.8em + 1.6vw);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  padding: 5rem 2rem 0 2rem;
+  text-shadow: 0.022em 0.022em 0.022em #111;
+  color: #fff;
+}
+
+.container-search-input {
+  display: flex;
+  justify-content: center;
+  margin: 10px 0;
+  padding: 10px;
+}
+
+#searchbar {
+  height: 40px;
+  width: 400px;
+}
+
+/* episodes style */
 #root {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
   gap: 20px;
 }
 
-@media only screen and (max-width: 600px) {
-  #root {
-  grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
-  }
-}
 .episode {
   min-width: 350px;
   max-width: 500px;
   background-color: whitesmoke;
 
+  border-radius: 8px;
+  box-shadow: 0 0 0 1px rgb(53 72 91 / 7%), 0 2px 2px rgb(0 0 0 / 1%),
+    0 4px 4px rgb(0 0 0 / 2%), 0 10px 8px rgb(0 0 0 / 3%),
+    0 15px 15px rgb(0 0 0 / 3%), 0 30px 30px rgb(0 0 0 / 4%),
+    0 70px 65px rgb(0 0 0 / 5%);
+
   margin: 10px 10px;
   padding: 10px 20px;
   box-sizing: border-box;
-  border-radius: 15px;
-  border: 2px solid black;
-
-  /* gradient border
-  border-image: linear-gradient(#f6b73c, #67331e) 30;
-  border-width: 4px;
-  border-style: solid; */
-
 }
 
 .episode-number {
-  color: blue;
+  color: hsla(256, 44%, 42%, 0.782);
   text-align: center;
+  font-weight: bolder;
 }
 
 .episode-title {
-  border: 2px solid black;
-  border-radius: 20px;
+  border-radius: 8px;
   text-align: center;
   padding: 5px auto;
   height: 100px;
+  font-weight: 600;
+  background-image: linear-gradient(to right, #553c9a, #b393d3);
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
 }
 
 .episode-image-container {
@@ -52,11 +74,12 @@ body {
   align-items: center;
 }
 .episode-image {
-  height: 250px;
-  width: 250px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid black;
+  --s: 10px; /* control the size */
+  padding: var(--s);
+  border: calc(2 * var(--s)) solid #0000;
+  outline: 1px solid #000;
+  outline-offset: calc(-1 * var(--s));
+  background: conic-gradient(from 90deg at 1px 1px, #0000 25%, #000 0);
 }
 
 .episode-summary {
@@ -64,4 +87,57 @@ body {
   padding: 10px 20px;
   text-align: justify;
   font-size: 1.2rem;
+  height: 200px;
+}
+
+.run-time {
+  font-size: 0.8 rem;
+  color: blueviolet;
+  text-align: center;
+}
+
+.play-button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* CSS for buttons - copied*/
+.play-button {
+  --b: 3px; /* border thickness */
+  --s: 0.45em; /* size of the corner */
+  --color: #373b44;
+
+  padding: calc(0.5em + var(--s)) calc(0.9em + var(--s));
+  color: var(--color);
+  --_p: var(--s);
+  background: conic-gradient(
+      from 90deg at var(--b) var(--b),
+      #0000 90deg,
+      var(--color) 0
+    )
+    var(--_p) var(--_p) / calc(100% - var(--b) - 2 * var(--_p))
+    calc(100% - var(--b) - 2 * var(--_p));
+  transition: 0.3s linear, color 0s, background-color 0s;
+  outline: var(--b) solid #0000;
+  outline-offset: 0.6em;
+  font-size: 16px;
+
+  border: 0;
+
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.play-button:hover,
+.play-button:focus-visible {
+  --_p: 0px;
+  outline-color: var(--color);
+  outline-offset: 0.05em;
+}
+
+.play-button:active {
+  background: var(--color);
+  color: #fff;
 }

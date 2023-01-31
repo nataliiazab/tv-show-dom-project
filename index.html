@@ -10,6 +10,16 @@
 
   <body>
     <h1 id="project-title">TV Show Project</h1>
+    <div class="container-search-input">
+      <input
+        id="searchbar"
+        onkeyup="search_episodes()"
+        type="text"
+        name="search"
+        placeholder="Search episodes.."
+      />
+    </div>
+
     <div id="root"></div>
 
     <!-- Loads a provided function called getAllEpisodes() which returns all episodes -->

@@ -55,12 +55,34 @@ function getOneEpisode(allEpisodes) {
     episodeSummary.innerHTML = episode.summary;
     episodeSummary.classList.add("episode-summary");
     mainDiv.appendChild(episodeSummary);
-    // mainDiv.appendChild(document.createElement("br"));
+
+    // button to play the episode
+    const containerForPlayButton = document.createElement("div");
+    containerForPlayButton.classList.add("play-button-container");
+    mainDiv.appendChild(containerForPlayButton);
+
+    const playButton = document.createElement("button");
+    playButton.textContent = "Play";
+    playButton.classList.add("play-button");
+    containerForPlayButton.appendChild(playButton);
+
+    //add event listener to play button
+    playButton.addEventListener("click", () => {
+      window.open(`${episode.url}`, "mozillaTab");
+    });
+
+    // run time
+    const runTime = document.createElement("div");
+    runTime.classList.add("run-time");
+    runTime.innerHTML = "<p>Runtime: " + episode.runtime + " min" + "</p>";
+    mainDiv.appendChild(runTime);
   }
 }
 
+//calling the function with all episodes
 getOneEpisode(gameOfThronesEpisodes);
 
+//footer
 const footer = document.createElement("footer");
 document.querySelector("body").appendChild(footer);
 const footerLink = document.createElement("a");
@@ -72,6 +94,7 @@ footer.appendChild(footerLink);
 
 
 // Add a "live" search input:
+
 // Only episodes whose summary OR name contains the search term should be displayed
 // The search should be case-insensitive
 // The display should update immediately after each keystroke changes the input.
