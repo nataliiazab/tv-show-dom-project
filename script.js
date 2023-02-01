@@ -1,16 +1,4 @@
-//You can edit ALL of the code here
-// function setup() {
-//   const allEpisodes = getAllEpisodes();
-//   makePageForEpisodes(allEpisodes);
-// }
 
-// function makePageForEpisodes(episodeList) {
-//   const rootElem = document.getElementById("root");
-//   rootElem.textContent = `Got ${episodeList.length} episode(s)`;
-
-// }
-
-// window.onload = setup;
 const numberOfEpisodesShown = document.querySelector(".number-shown");
 
 let gameOfThronesEpisodes = getAllEpisodes();
@@ -101,7 +89,13 @@ searchInput.addEventListener("input", (event) => {
   numberOfEpisodesShown.innerText = filteredEpisodes.length;
 });
 
-// Display how many episodes match the current search
-// If the search box is cleared, all episodes should be shown.
 
-// https://syllabus.codeyourfuture.io/js-core-3/tv-show-dom-project/level-200
+
+// https://syllabus.codeyourfuture.io/js-core-3/tv-show-dom-project/level-300
+
+
+// Add a select input which allows you to jump quickly to an episode:
+// The select input should list all episodes in the format: "S01E01 - Winter is Coming"
+// When the user makes a selection, they should be taken directly to that episode in the list
+// Bonus: if you prefer, when the select is used, ONLY show the selected episode. 
+// If you do this, be sure to provide a way for the user to see all episodes again.
