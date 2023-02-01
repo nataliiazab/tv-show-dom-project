@@ -30,6 +30,11 @@ body {
 .displaying-episodes {
   margin-left: 10px;
 }
+
+.number-shown {
+  color: #553c9a;
+  font-weight: bold;
+}
 /* episodes style */
 #root {
   display: grid;
