@@ -27,6 +27,9 @@ body {
   width: 400px;
 }
 
+.displaying-episodes{
+ margin-left: 10px;
+}
 /* episodes style */
 #root {
   display: grid;
