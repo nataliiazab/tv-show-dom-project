@@ -27,8 +27,8 @@ body {
   width: 400px;
 }
 
-.displaying-episodes{
- margin-left: 10px;
+.displaying-episodes {
+  margin-left: 10px;
 }
 /* episodes style */
 #root {
@@ -90,7 +90,7 @@ body {
   padding: 10px 20px;
   text-align: justify;
   font-size: 1.2rem;
-  height: 200px;
+  height: 215px;
 }
 
 .run-time {
@@ -143,4 +143,9 @@ body {
 .play-button:active {
   background: var(--color);
   color: #fff;
+}
+
+footer {
+  text-align: center;
+  margin: 25px 0;
 }
