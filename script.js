@@ -1,4 +1,3 @@
-
 const numberOfEpisodesShown = document.querySelector(".number-shown");
 
 let gameOfThronesEpisodes = getAllEpisodes();
@@ -77,6 +76,7 @@ const searchInput = document.querySelector("#searchbar");
 
 searchInput.addEventListener("input", (event) => {
   const searchTerm = event.target.value.toLowerCase();
+  // console.log(searchTerm);
   rootElem.textContent = "";
 
   const filteredEpisodes = gameOfThronesEpisodes.filter((episode) => {
@@ -89,13 +89,44 @@ searchInput.addEventListener("input", (event) => {
   numberOfEpisodesShown.innerText = filteredEpisodes.length;
 });
 
+function checkEpisodes(allEpisodes) {
+  const episodeSelect = document.querySelector("#select-input");
 
+  for (let episode of allEpisodes) {
+    let newEpisode = document.createElement("option");
+    newEpisode.innerHTML = `S${String(episode.season).padStart(
+      2,
+      "0"
+    )}E${String(episode.number).padStart(2, "0")} ${episode.name}`;
+
+    episodeSelect.appendChild(newEpisode);
+  }
+
+
+  episodeSelect.addEventListener("change", (event) => {
+    const selectedEpisode = event.target.value;
+    rootElem.textContent = "";
+    const myTitle = selectedEpisode.slice(7);
+
+    if (selectedEpisode === "Show all episodes") {
+      getOneEpisode(gameOfThronesEpisodes);
+      numberOfEpisodesShown.innerText = gameOfThronesEpisodes.length;
+    } else {
+      const filteredEpisodes = gameOfThronesEpisodes.filter((episode) => {
+        return episode.name.includes(myTitle);
+      });
+      getOneEpisode(filteredEpisodes);
+      numberOfEpisodesShown.innerText = filteredEpisodes.length;
+    }
+  });
+}
+
+checkEpisodes(gameOfThronesEpisodes);
 
 // https://syllabus.codeyourfuture.io/js-core-3/tv-show-dom-project/level-300
-
 
 // Add a select input which allows you to jump quickly to an episode:
 // The select input should list all episodes in the format: "S01E01 - Winter is Coming"
 // When the user makes a selection, they should be taken directly to that episode in the list
-// Bonus: if you prefer, when the select is used, ONLY show the selected episode. 
+// Bonus: if you prefer, when the select is used, ONLY show the selected episode.
 // If you do this, be sure to provide a way for the user to see all episodes again.
