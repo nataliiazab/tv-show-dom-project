@@ -14,7 +14,20 @@ body {
   text-shadow: 0.022em 0.022em 0.022em #111;
   color: #fff;
 }
+.container-select-episode {
+  display: flex;
+  justify-content: center;
+}
 
+#select-input {
+  height: 40px;
+}
+
+#label-select-ep {
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+}
 .container-search-input {
   display: flex;
   justify-content: center;
