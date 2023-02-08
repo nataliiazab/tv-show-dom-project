@@ -1,6 +1,19 @@
 const numberOfEpisodesShown = document.querySelector(".number-shown");
 
-let gameOfThronesEpisodes = getAllEpisodes();
+const url = "https://api.tvmaze.com/shows/82/episodes";
+let gameOfThronesEpisodes = [];
+
+function setup() {
+  fetch(url)
+    .then((resp) => resp.json())
+    .then((data) => {
+      gameOfThronesEpisodes = data;
+      //calling the function with all episodes
+      getOneEpisode(gameOfThronesEpisodes);
+      checkEpisodes(gameOfThronesEpisodes);
+      numberOfEpisodesShown.innerText = gameOfThronesEpisodes.length;
+    });
+}
 
 let rootElem = document.getElementById("root");
 
@@ -67,10 +80,6 @@ function getOneEpisode(allEpisodes) {
   }
 }
 
-//calling the function with all episodes
-getOneEpisode(gameOfThronesEpisodes);
-numberOfEpisodesShown.innerText = gameOfThronesEpisodes.length;
-
 //search
 const searchInput = document.querySelector("#searchbar");
 
@@ -102,7 +111,6 @@ function checkEpisodes(allEpisodes) {
     episodeSelect.appendChild(newEpisode);
   }
 
-
   episodeSelect.addEventListener("change", (event) => {
     const selectedEpisode = event.target.value;
     rootElem.textContent = "";
@@ -121,12 +129,5 @@ function checkEpisodes(allEpisodes) {
   });
 }
 
-checkEpisodes(gameOfThronesEpisodes);
-
+window.onload = setup;
 // https://syllabus.codeyourfuture.io/js-core-3/tv-show-dom-project/level-300
-
-// Add a select input which allows you to jump quickly to an episode:
-// The select input should list all episodes in the format: "S01E01 - Winter is Coming"
-// When the user makes a selection, they should be taken directly to that episode in the list
-// Bonus: if you prefer, when the select is used, ONLY show the selected episode.
-// If you do this, be sure to provide a way for the user to see all episodes again.
