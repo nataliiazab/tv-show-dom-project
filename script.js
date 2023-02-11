@@ -1,20 +1,34 @@
 const numberOfEpisodesShown = document.querySelector(".number-shown");
 
-const url = "https://api.tvmaze.com/shows/82/episodes";
-let gameOfThronesEpisodes = [];
 
-function setup() {
-  fetch(url)
-    .then((resp) => resp.json())
-    .then((data) => {
-      gameOfThronesEpisodes = data;
+//setup for calling all the functions with fetch
+async function setup() {
+   let fetchEpisodes = await fetchEpisodeDAta();
+   let fetchShows = await fetchTVshows()
       //calling the function with all episodes
-      getOneEpisode(gameOfThronesEpisodes);
-      checkEpisodes(gameOfThronesEpisodes);
-      numberOfEpisodesShown.innerText = gameOfThronesEpisodes.length;
-    });
-}
+      getOneEpisode(fetchEpisodes);
+      checkEpisodes(fetchEpisodes);
+      numberOfEpisodesShown.innerText = fetchEpisodes.length;
+      searchEpisode(fetchEpisodes);
+      checkEpisodes(fetchEpisodes);
+      addTVshows(fetchShows);
+    }
 
+//fetching one TV show(now its GoT)
+const fetchEpisodeDAta = async() => {
+  const response = await fetch("https://api.tvmaze.com/shows/82/episodes");
+    const data = await response.json()
+return data}
+
+
+//fetching all the shows
+const fetchTVshows = async () => {
+  const response = await fetch("https://api.tvmaze.com/shows");
+  const data = await response.json();
+  return data;
+};
+
+//function for one div of an episode
 let rootElem = document.getElementById("root");
 
 function getOneEpisode(allEpisodes) {
@@ -80,24 +94,28 @@ function getOneEpisode(allEpisodes) {
   }
 }
 
-//search
+//search for an episode
 const searchInput = document.querySelector("#searchbar");
 
-searchInput.addEventListener("input", (event) => {
-  const searchTerm = event.target.value.toLowerCase();
-  // console.log(searchTerm);
-  rootElem.textContent = "";
+function searchEpisode(episodeList) {
+  searchInput.addEventListener("input", (event) =>{
+const searchTerm = event.target.value.toLowerCase();
+// console.log(searchTerm);
+rootElem.textContent = "";
 
-  const filteredEpisodes = gameOfThronesEpisodes.filter((episode) => {
-    return (
-      episode.summary.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      episode.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-  });
-  getOneEpisode(filteredEpisodes);
-  numberOfEpisodesShown.innerText = filteredEpisodes.length;
+const filteredEpisodes = episodeList.filter((episode) => {
+  return (
+    episode.summary.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    episode.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 });
 
+getOneEpisode(filteredEpisodes);
+numberOfEpisodesShown.innerText = filteredEpisodes.length;
+})}
+
+
+//input to choose an episode
 function checkEpisodes(allEpisodes) {
   const episodeSelect = document.querySelector("#select-input");
 
@@ -117,10 +135,10 @@ function checkEpisodes(allEpisodes) {
     const myTitle = selectedEpisode.slice(7);
 
     if (selectedEpisode === "Show all episodes") {
-      getOneEpisode(gameOfThronesEpisodes);
-      numberOfEpisodesShown.innerText = gameOfThronesEpisodes.length;
+      getOneEpisode(allEpisodes);
+      numberOfEpisodesShown.innerText = allEpisodes.length;
     } else {
-      const filteredEpisodes = gameOfThronesEpisodes.filter((episode) => {
+      const filteredEpisodes = allEpisodes.filter((episode) => {
         return episode.name.includes(myTitle);
       });
       getOneEpisode(filteredEpisodes);
@@ -129,5 +147,33 @@ function checkEpisodes(allEpisodes) {
   });
 }
 
+//add TV shows - level 400
+
+function addTVshows(allshows) {
+  const seriesSelect = document.querySelector("#TVshows");
+
+  for (let show of allshows) {
+    let newSeries = document.createElement("option");
+    newSeries.innerHTML = show.name;
+
+    seriesSelect.appendChild(newSeries);
+  }
+
+  // seriesSelect.addEventListener("change", (event) => {
+  //   const selectShow = event.target.value;
+  //   rootElem.textContent = "";
+  //   const myTitle = selectShow.slice(7);
+
+  //   if (selectedEpisode === "Show all episodes") {
+  //     getOneEpisode(allshows);
+  //     numberOfEpisodesShown.innerText = allshows.length;
+  //   } else {
+  //     const filteredEpisodes = allshows.filter((episode) => {
+  //       return episode.name.includes(myTitle);
+  //     });
+  //     getOneEpisode(filteredEpisodes);
+  //     numberOfEpisodesShown.innerText = filteredEpisodes.length;
+  //   }
+  // });
+}
 window.onload = setup;
-// https://syllabus.codeyourfuture.io/js-core-3/tv-show-dom-project/level-300
