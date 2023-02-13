@@ -159,21 +159,21 @@ function addTVshows(allshows) {
     seriesSelect.appendChild(newSeries);
   }
 
-  // seriesSelect.addEventListener("change", (event) => {
-  //   const selectShow = event.target.value;
-  //   rootElem.textContent = "";
-  //   const myTitle = selectShow.slice(7);
-
-  //   if (selectedEpisode === "Show all episodes") {
-  //     getOneEpisode(allshows);
-  //     numberOfEpisodesShown.innerText = allshows.length;
-  //   } else {
-  //     const filteredEpisodes = allshows.filter((episode) => {
-  //       return episode.name.includes(myTitle);
-  //     });
-  //     getOneEpisode(filteredEpisodes);
-  //     numberOfEpisodesShown.innerText = filteredEpisodes.length;
-  //   }
-  // });
+  seriesSelect.addEventListener("change", (event) => {
+    const selectShow = event.target.value;
+    rootElem.textContent = "";
+    const myTitle = selectShow;
+    
+    // if (selectedEpisode === "Show all episodes") {
+    //   getOneEpisode(allshows);
+    //   numberOfEpisodesShown.innerText = allshows.length;
+    // } else {
+    //   const filteredEpisodes = allshows.filter((episode) => {
+    //     return episode.name.includes(myTitle);
+    //   });
+    //   getOneEpisode(filteredEpisodes);
+    //   numberOfEpisodesShown.innerText = filteredEpisodes.length;
+    // }
+  });
 }
 window.onload = setup;
