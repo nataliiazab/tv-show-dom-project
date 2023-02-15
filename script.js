@@ -12,25 +12,37 @@ function episodesFunctions(fetchUrl) {
 
 //setup for calling all the functions with fetch
 async function setup() {
-  let fetchEpisodes = await fetchOneShow(82);
-  let fetchShows = await fetchAllShows();
-  episodesFunctions(fetchEpisodes);
-  selectShow(fetchShows);
+  try {
+    let fetchEpisodes = await fetchOneShow(82);
+    let fetchShows = await fetchAllShows();
+    episodesFunctions(fetchEpisodes);
+    selectShow(fetchShows);
+  } catch (error) {
+    console.error("An error occurred in setup function:", error);
+  }
 }
 
 //fetching one TV show(at the beginning it is GoT)
 let fetchOneShow = async (id) => {
-  const response = await fetch(`https://api.tvmaze.com/shows/${id}/episodes`);
-  const data = await response.json();
-  return data;
+  try {
+    const response = await fetch(`https://api.tvmaze.com/shows/${id}/episodes`);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Check fetchOneShow function", error);
+  }
 };
 
 //fetching all the shows
 const fetchAllShows = async () => {
-  let response = await fetch("https://api.tvmaze.com/shows");
-  let data = await response.json();
-  tvShows = data;
-  return data;
+  try {
+    let response = await fetch("https://api.tvmaze.com/shows");
+    let data = await response.json();
+    tvShows = data;
+    return data;
+  } catch (error) {
+    console.error("Check fetchAllShows function", error);
+  }
 };
 
 //function for one div of an episode
@@ -112,7 +124,6 @@ const searchInput = document.querySelector("#searchbar");
 function searchEpisode(episodeList) {
   searchInput.addEventListener("input", (event) => {
     const searchTerm = event.target.value.toLowerCase();
-    // console.log(searchTerm);
     rootElem.textContent = "";
 
     const filteredEpisodes = episodeList.filter((episode) => {
@@ -177,20 +188,21 @@ function selectShow(allshows) {
   }
 
   seriesSelect.addEventListener("change", async (event) => {
-    // console.log(tvShows);
-    const selectShow = event.target.value;
-    rootElem.textContent = "";
-    let myTitle = selectShow;
+    try {
+      // console.log(tvShows);
+      const selectShow = event.target.value;
+      rootElem.textContent = "";
+      let myTitle = selectShow;
 
-    let selectedShow = tvShows.find((data) => data.name === selectShow);
-    console.log(selectedShow);
-    let id = selectedShow.id;
-    // console.log(id)
+      let selectedShow = tvShows.find((data) => data.name === selectShow);
+      let id = selectedShow.id;
+      let newfetch = await fetchOneShow(id);
 
-    let newfetch = await fetchOneShow(id);
-
-    //calling function with other functions as in setup
-    episodesFunctions(newfetch);
+      //calling function with other functions as in setup
+      episodesFunctions(newfetch);
+    } catch (error) {
+      console.log("Check eventListener from selectShow function", error);
+    }
   });
 }
 window.onload = setup;
