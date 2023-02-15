@@ -143,6 +143,7 @@ function selectOneEpisode(allEpisodes) {
   const episodeSelect = document.querySelector("#select-input");
 
   //delete all previous options
+
   episodeSelect
     .querySelectorAll("option:not(#show-all-episodes)")
     .forEach((option) => option.remove());
@@ -205,4 +206,6 @@ function selectShow(allshows) {
     }
   });
 }
+
+//add images of showsto the page - level 500 - https://syllabus.codeyourfuture.io/js-core-3/tv-show-dom-project/level-500
 window.onload = setup;
