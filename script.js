@@ -1,30 +1,33 @@
 const numberOfEpisodesShown = document.querySelector(".number-shown");
 
+let tvShows = [];
 
 //setup for calling all the functions with fetch
 async function setup() {
-   let fetchEpisodes = await fetchEpisodeDAta();
-   let fetchShows = await fetchTVshows()
-      //calling the function with all episodes
-      getOneEpisode(fetchEpisodes);
-      checkEpisodes(fetchEpisodes);
-      numberOfEpisodesShown.innerText = fetchEpisodes.length;
-      searchEpisode(fetchEpisodes);
-      checkEpisodes(fetchEpisodes);
-      addTVshows(fetchShows);
-    }
+  let fetchEpisodes = await fetchOneShow(82);
+  console.log(fetchEpisodes); //number was just added
+  let fetchShows = await fetchTVshows();
+  //calling the function with all episodes
+  getOneEpisode(fetchEpisodes);
+  checkEpisodes(fetchEpisodes);
+  numberOfEpisodesShown.innerText = fetchEpisodes.length;
+  searchEpisode(fetchEpisodes);
+  checkEpisodes(fetchEpisodes);
+  addTVshows(fetchShows);
+}
 
 //fetching one TV show(now its GoT)
-const fetchEpisodeDAta = async() => {
-  const response = await fetch("https://api.tvmaze.com/shows/82/episodes");
-    const data = await response.json()
-return data}
-
+let fetchOneShow = async (id) => {
+  const response = await fetch(`https://api.tvmaze.com/shows/${id}/episodes`);
+  const data = await response.json();
+  return data;
+};
 
 //fetching all the shows
 const fetchTVshows = async () => {
-  const response = await fetch("https://api.tvmaze.com/shows");
-  const data = await response.json();
+  let response = await fetch("https://api.tvmaze.com/shows");
+  let data = await response.json();
+  tvShows = data;
   return data;
 };
 
@@ -67,7 +70,14 @@ function getOneEpisode(allEpisodes) {
 
     // episode summary
     const episodeSummary = document.createElement("div");
-    episodeSummary.innerHTML = episode.summary;
+
+    //cut summary if too long
+    const summary =
+      episode.summary.length > 400
+        ? episode.summary.slice(0, 400) + "..."
+        : episode.summary;
+      
+    episodeSummary.innerHTML = summary 
     episodeSummary.classList.add("episode-summary");
     mainDiv.appendChild(episodeSummary);
 
@@ -98,29 +108,35 @@ function getOneEpisode(allEpisodes) {
 const searchInput = document.querySelector("#searchbar");
 
 function searchEpisode(episodeList) {
-  searchInput.addEventListener("input", (event) =>{
-const searchTerm = event.target.value.toLowerCase();
-// console.log(searchTerm);
-rootElem.textContent = "";
+  searchInput.addEventListener("input", (event) => {
+    const searchTerm = event.target.value.toLowerCase();
+    // console.log(searchTerm);
+    rootElem.textContent = "";
 
-const filteredEpisodes = episodeList.filter((episode) => {
-  return (
-    episode.summary.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    episode.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-});
+    const filteredEpisodes = episodeList.filter((episode) => {
+      return (
+        episode.summary.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        episode.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    });
 
-getOneEpisode(filteredEpisodes);
-numberOfEpisodesShown.innerText = filteredEpisodes.length;
-})}
-
+    getOneEpisode(filteredEpisodes);
+    numberOfEpisodesShown.innerText = filteredEpisodes.length;
+  });
+}
 
 //input to choose an episode
 function checkEpisodes(allEpisodes) {
   const episodeSelect = document.querySelector("#select-input");
 
+  //delete all previous options
+episodeSelect
+  .querySelectorAll("option:not(#show-all-episodes)")
+  .forEach((option) => option.remove());
   for (let episode of allEpisodes) {
+   
     let newEpisode = document.createElement("option");
+    
     newEpisode.innerHTML = `S${String(episode.season).padStart(
       2,
       "0"
@@ -159,21 +175,24 @@ function addTVshows(allshows) {
     seriesSelect.appendChild(newSeries);
   }
 
-  seriesSelect.addEventListener("change", (event) => {
+  seriesSelect.addEventListener("change", async (event) => {
+    // console.log(tvShows);
     const selectShow = event.target.value;
     rootElem.textContent = "";
-    const myTitle = selectShow;
-    
-    // if (selectedEpisode === "Show all episodes") {
-    //   getOneEpisode(allshows);
-    //   numberOfEpisodesShown.innerText = allshows.length;
-    // } else {
-    //   const filteredEpisodes = allshows.filter((episode) => {
-    //     return episode.name.includes(myTitle);
-    //   });
-    //   getOneEpisode(filteredEpisodes);
-    //   numberOfEpisodesShown.innerText = filteredEpisodes.length;
-    // }
+    let myTitle = selectShow;
+
+    let selectedShow = tvShows.find((data) => data.name === selectShow);
+    console.log(selectedShow);
+    let id = selectedShow.id;
+    // console.log(id)
+
+    let newfetch = await fetchOneShow(id);
+    console.log(newfetch);
+    getOneEpisode(newfetch);
+    checkEpisodes(newfetch);
+    numberOfEpisodesShown.innerText = newfetch.length;
+    searchEpisode(newfetch);
+    checkEpisodes(newfetch);
   });
 }
 window.onload = setup;

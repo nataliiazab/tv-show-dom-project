@@ -14,20 +14,52 @@ body {
   text-shadow: 0.022em 0.022em 0.022em #111;
   color: #fff;
 }
-.container-select-episode {
+
+.container {
   display: flex;
-  justify-content: center;
+  flex-wrap: wrap;
+  justify-content: space-between;
+
 }
 
-#select-input {
+.container-select-episode,
+.container-select-TVshow {
+  flex: 0 0 48%;
+  margin-bottom: 20px;
+    display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+ 
+}
+select {
   height: 40px;
 }
 
-#label-select-ep {
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .container-select-episode,
+  .container-select-TVshow {
+    flex: 0 0 100%;
+  }
+}
+/* .container-select-episode {
+  display: flex;
+  justify-content: center;
+} */
+
+/* #select-input {
+  height: 40px;
+} */
+
+/* #label-select-ep {
     display: flex;
     align-items: center;
     margin-right: 10px;
-}
+} */
 .container-search-input {
   display: flex;
   justify-content: center;
