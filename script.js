@@ -1,22 +1,24 @@
 const numberOfEpisodesShown = document.querySelector(".number-shown");
 
-let tvShows = [];
+let tvShows = []; //all the TV shows from fetch
+
+function episodesFunctions(fetchUrl) {
+  getOneEpisode(fetchUrl);
+  selectOneEpisode(fetchUrl);
+  numberOfEpisodesShown.innerText = fetchUrl.length;
+  searchEpisode(fetchUrl);
+  selectOneEpisode(fetchUrl);
+}
 
 //setup for calling all the functions with fetch
 async function setup() {
   let fetchEpisodes = await fetchOneShow(82);
-  console.log(fetchEpisodes); //number was just added
-  let fetchShows = await fetchTVshows();
-  //calling the function with all episodes
-  getOneEpisode(fetchEpisodes);
-  checkEpisodes(fetchEpisodes);
-  numberOfEpisodesShown.innerText = fetchEpisodes.length;
-  searchEpisode(fetchEpisodes);
-  checkEpisodes(fetchEpisodes);
-  addTVshows(fetchShows);
+  let fetchShows = await fetchAllShows();
+  episodesFunctions(fetchEpisodes);
+  selectShow(fetchShows);
 }
 
-//fetching one TV show(now its GoT)
+//fetching one TV show(at the beginning it is GoT)
 let fetchOneShow = async (id) => {
   const response = await fetch(`https://api.tvmaze.com/shows/${id}/episodes`);
   const data = await response.json();
@@ -24,7 +26,7 @@ let fetchOneShow = async (id) => {
 };
 
 //fetching all the shows
-const fetchTVshows = async () => {
+const fetchAllShows = async () => {
   let response = await fetch("https://api.tvmaze.com/shows");
   let data = await response.json();
   tvShows = data;
@@ -76,8 +78,8 @@ function getOneEpisode(allEpisodes) {
       episode.summary.length > 400
         ? episode.summary.slice(0, 400) + "..."
         : episode.summary;
-      
-    episodeSummary.innerHTML = summary 
+
+    episodeSummary.innerHTML = summary;
     episodeSummary.classList.add("episode-summary");
     mainDiv.appendChild(episodeSummary);
 
@@ -126,17 +128,16 @@ function searchEpisode(episodeList) {
 }
 
 //input to choose an episode
-function checkEpisodes(allEpisodes) {
+function selectOneEpisode(allEpisodes) {
   const episodeSelect = document.querySelector("#select-input");
 
   //delete all previous options
-episodeSelect
-  .querySelectorAll("option:not(#show-all-episodes)")
-  .forEach((option) => option.remove());
+  episodeSelect
+    .querySelectorAll("option:not(#show-all-episodes)")
+    .forEach((option) => option.remove());
   for (let episode of allEpisodes) {
-   
     let newEpisode = document.createElement("option");
-    
+
     newEpisode.innerHTML = `S${String(episode.season).padStart(
       2,
       "0"
@@ -163,9 +164,9 @@ episodeSelect
   });
 }
 
-//add TV shows - level 400
+//add all TV shows - level 400
 
-function addTVshows(allshows) {
+function selectShow(allshows) {
   const seriesSelect = document.querySelector("#TVshows");
 
   for (let show of allshows) {
@@ -187,12 +188,9 @@ function addTVshows(allshows) {
     // console.log(id)
 
     let newfetch = await fetchOneShow(id);
-    console.log(newfetch);
-    getOneEpisode(newfetch);
-    checkEpisodes(newfetch);
-    numberOfEpisodesShown.innerText = newfetch.length;
-    searchEpisode(newfetch);
-    checkEpisodes(newfetch);
+
+    //calling function with other functions as in setup
+    episodesFunctions(newfetch);
   });
 }
 window.onload = setup;
