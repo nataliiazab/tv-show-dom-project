@@ -1,6 +1,7 @@
 const numberOfEpisodesShown = document.querySelector(".number-shown");
 
 let tvShows = []; //all the TV shows from fetch
+// console.log(tvShows)
 
 function episodesFunctions(fetchUrl) {
   getOneEpisode(fetchUrl);
@@ -184,7 +185,6 @@ function selectShow(allshows) {
   for (let show of allshows) {
     let newSeries = document.createElement("option");
     newSeries.innerHTML = show.name;
-
     seriesSelect.appendChild(newSeries);
   }
 
@@ -193,7 +193,7 @@ function selectShow(allshows) {
       // console.log(tvShows);
       const selectShow = event.target.value;
       rootElem.textContent = "";
-      let myTitle = selectShow;
+      // let myTitle = selectShow;
 
       let selectedShow = tvShows.find((data) => data.name === selectShow);
       let id = selectedShow.id;
