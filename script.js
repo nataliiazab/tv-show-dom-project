@@ -1,22 +1,13 @@
 const numberOfEpisodesShown = document.querySelector(".number-shown");
 
 let tvShows = []; //all the TV shows from fetch
-// console.log(tvShows)
-
-function episodesFunctions(fetchUrl) {
-  getOneEpisode(fetchUrl);
-  selectOneEpisode(fetchUrl);
-  numberOfEpisodesShown.innerText = fetchUrl.length;
-  searchEpisode(fetchUrl);
-  selectOneEpisode(fetchUrl);
-}
 
 //setup for calling all the functions with fetch
 async function setup() {
   try {
-    let fetchEpisodes = await fetchOneShow(82);
     let fetchShows = await fetchAllShows();
-    episodesFunctions(fetchEpisodes);
+    getTVShowsCovers(fetchShows);
+    searchEpisode(fetchShows);
     selectShow(fetchShows);
   } catch (error) {
     console.error("An error occurred in setup function:", error);
@@ -200,7 +191,11 @@ function selectShow(allshows) {
       let newfetch = await fetchOneShow(id);
 
       //calling function with other functions as in setup
-      episodesFunctions(newfetch);
+      getOneEpisode(newfetch);
+      selectOneEpisode(newfetch);
+      numberOfEpisodesShown.innerText = newfetch.length;
+      searchEpisode(newfetch);
+      selectOneEpisode(newfetch);
     } catch (error) {
       console.log("Check eventListener from selectShow function", error);
     }
@@ -209,3 +204,81 @@ function selectShow(allshows) {
 
 //add images of showsto the page - level 500 - https://syllabus.codeyourfuture.io/js-core-3/tv-show-dom-project/level-500
 window.onload = setup;
+
+// const deleteChooseEpisode = document.querySelector(".container-select-episode");
+// deleteChooseEpisode.innerHTML = "";
+//new function forTVshows
+function getTVShowsCovers(allShows) {
+  for (let show of allShows) {
+    //main div for one show
+    const mainDiv = document.createElement("div");
+    mainDiv.classList.add("episode");
+    rootElem.appendChild(mainDiv);
+
+    //title for the show
+    const title = document.createElement("h1");
+    title.classList.add("episode-title");
+    title.textContent = show.name;
+    mainDiv.appendChild(title);
+
+    // container for show image
+    const divForEpisodeImage = document.createElement("div");
+    divForEpisodeImage.classList.add("episode-image-container");
+    mainDiv.appendChild(divForEpisodeImage);
+
+    // show image
+    const episodeImage = document.createElement("img");
+    episodeImage.src = show.image.medium;
+    episodeImage.alt = show.name;
+    episodeImage.classList.add("episode-image");
+    divForEpisodeImage.appendChild(episodeImage);
+
+    //cut summary if too long
+    const summary =
+      show.summary.length > 400
+        ? show.summary.slice(0, 400) + "..."
+        : show.summary;
+
+    // show summary
+    const episodeSummary = document.createElement("div");
+    episodeSummary.innerHTML = summary;
+    episodeSummary.classList.add("episode-summary");
+    mainDiv.appendChild(episodeSummary);
+
+    // button to open the episodes of the show
+    const containerForPlayButton = document.createElement("div");
+    containerForPlayButton.classList.add("play-button-container");
+    mainDiv.appendChild(containerForPlayButton);
+
+    const playButton = document.createElement("button");
+    playButton.textContent = "Go to episodes";
+    playButton.classList.add("play-button");
+    playButton.id = "open-episodes";
+
+    containerForPlayButton.appendChild(playButton);
+
+    const openEpisodes = document.querySelector("#open-episodes");
+    //add event listener to play button
+    openEpisodes.addEventListener("click", async () => {
+      console.log("its working");
+    });
+
+    // run time
+    const runTime = document.createElement("div");
+    runTime.classList.add("run-time");
+    runTime.innerHTML = "<p>Runtime: " + show.runtime + " min" + "</p>";
+    mainDiv.appendChild(runTime);
+
+    // //
+    // const episodeRating = show.rating.average;
+    // const episodeRatingDiv = document.createElement("p");
+    // episodeRatingDiv.innerHTML = `Rating: ${episodeRating}`;
+    // section.appendChild(episodeRatingDiv);
+    // //genres
+    // const episodeGenre = show.genres;
+    // const episodeGenresDiv = document.createElement("p");
+    // episodeGenresDiv.innerHTML = `Genres: ${episodeGenre}`;
+    // //  episodeGenresDiv.innerHTML = `Genres: ${episodeGenre.replace(/,/g, ", ")}`;
+    // section.appendChild(episodeGenresDiv);
+  }
+}
