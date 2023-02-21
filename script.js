@@ -40,6 +40,13 @@ const fetchAllShows = async () => {
 //function for one div of an episode
 let rootElem = document.getElementById("root");
 
+//cut summary if too long
+function cutSummary(episode) {
+  return episode.summary.length > 400
+    ? episode.summary.slice(0, 400) + "..."
+    : episode.summary;
+}
+
 function getOneEpisode(allEpisodes) {
   for (let episode of allEpisodes) {
     //main div for one episode
@@ -76,14 +83,7 @@ function getOneEpisode(allEpisodes) {
 
     // episode summary
     const episodeSummary = document.createElement("div");
-
-    //cut summary if too long
-    const summary =
-      episode.summary.length > 400
-        ? episode.summary.slice(0, 400) + "..."
-        : episode.summary;
-
-    episodeSummary.innerHTML = summary;
+    episodeSummary.innerHTML = cutSummary(episode);
     episodeSummary.classList.add("episode-summary");
     mainDiv.appendChild(episodeSummary);
 
@@ -181,10 +181,8 @@ function selectShow(allshows) {
 
   seriesSelect.addEventListener("change", async (event) => {
     try {
-      // console.log(tvShows);
       const selectShow = event.target.value;
       rootElem.textContent = "";
-      // let myTitle = selectShow;
 
       let selectedShow = tvShows.find((data) => data.name === selectShow);
       let id = selectedShow.id;
@@ -202,46 +200,47 @@ function selectShow(allshows) {
   });
 }
 
-//add images of showsto the page - level 500 - https://syllabus.codeyourfuture.io/js-core-3/tv-show-dom-project/level-500
-window.onload = setup;
+//add images of shows to the page - level 500 - https://syllabus.codeyourfuture.io/js-core-3/tv-show-dom-project/level-500
 
-// const deleteChooseEpisode = document.querySelector(".container-select-episode");
-// deleteChooseEpisode.innerHTML = "";
-//new function forTVshows
+function createElement(type, className, appendElement) {
+  const el = document.createElement(type);
+  el.classList.add(className);
+  appendElement.appendChild(el);
+  return el;
+}
+
 function getTVShowsCovers(allShows) {
   for (let show of allShows) {
     //main div for one show
-    const mainDiv = document.createElement("div");
-    mainDiv.classList.add("episode");
-    rootElem.appendChild(mainDiv);
+    let mainDiv = createElement("div", "episode", rootElem);
 
     //title for the show
-    const title = document.createElement("h1");
-    title.classList.add("episode-title");
+
+    let title = createElement("h1", "episode-title", mainDiv);
     title.textContent = show.name;
-    mainDiv.appendChild(title);
 
     // container for show image
-    const divForEpisodeImage = document.createElement("div");
-    divForEpisodeImage.classList.add("episode-image-container");
-    mainDiv.appendChild(divForEpisodeImage);
+
+    let divForEpisodeImage = createElement(
+      "div",
+      "episode-image-container",
+      mainDiv
+    );
 
     // show image
-    const episodeImage = document.createElement("img");
+
+    let episodeImage = createElement(
+      "img",
+      "episode-image",
+      divForEpisodeImage
+    );
+
     episodeImage.src = show.image.medium;
     episodeImage.alt = show.name;
-    episodeImage.classList.add("episode-image");
-    divForEpisodeImage.appendChild(episodeImage);
-
-    //cut summary if too long
-    const summary =
-      show.summary.length > 400
-        ? show.summary.slice(0, 400) + "..."
-        : show.summary;
 
     // show summary
     const episodeSummary = document.createElement("div");
-    episodeSummary.innerHTML = summary;
+    episodeSummary.innerHTML = cutSummary(show);
     episodeSummary.classList.add("episode-summary");
     mainDiv.appendChild(episodeSummary);
 
@@ -250,17 +249,47 @@ function getTVShowsCovers(allShows) {
     containerForPlayButton.classList.add("play-button-container");
     mainDiv.appendChild(containerForPlayButton);
 
+
     const playButton = document.createElement("button");
     playButton.textContent = "Go to episodes";
     playButton.classList.add("play-button");
     playButton.id = "open-episodes";
+    //for Event Listener below
+    playButton.name = show.name;
 
     containerForPlayButton.appendChild(playButton);
 
     const openEpisodes = document.querySelector("#open-episodes");
     //add event listener to play button
-    openEpisodes.addEventListener("click", async () => {
-      console.log("its working");
+    openEpisodes.addEventListener("click", async (event) => {
+      // console.log("its working");
+
+
+      //the function repeats, to - dry
+      //abstract 
+      try {
+        let selectShow = event.target.name;
+        console.log(event); // fix this
+        rootElem.textContent = "";
+
+        let selectedShow = tvShows.find((data) => data.name === selectShow);
+        console.log(selectedShow);
+        let id = selectedShow.id;
+        console.log(id);
+        let newfetch = await fetchOneShow(id);
+
+        //calling function with other functions as in setup
+        getOneEpisode(newfetch);
+        selectOneEpisode(newfetch);
+        numberOfEpisodesShown.innerText = newfetch.length;
+        searchEpisode(newfetch);
+        selectOneEpisode(newfetch);
+      } catch (error) {
+        console.log(
+          "Check eventListener from getTVShowsCovers function",
+          error
+        );
+      }
     });
 
     // run time
@@ -282,3 +311,5 @@ function getTVShowsCovers(allShows) {
     // section.appendChild(episodeGenresDiv);
   }
 }
+
+window.onload = setup;
