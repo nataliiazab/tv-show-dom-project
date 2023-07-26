@@ -10,9 +10,9 @@ To get started with this project, follow the steps below:
 2. Open the `index.html` file in your web browser.
 
 ## Tech Stack
-### HTML: The project uses HTML to structure the web application and create the user interface.
-### CSS: CSS is utilized for styling the elements and providing a visually appealing layout.
-### JavaScript (DOM Manipulation): The core functionality of the project is implemented using JavaScript with a focus on DOM manipulation. It handles fetching data from the TVmaze API, creating and rendering episodes dynamically on the page, and managing user interactions.
+1. HTML: The project uses HTML to structure the web application and create the user interface.
+2. CSS: CSS is utilized for styling the elements and providing a visually appealing layout.
+3. JavaScript (DOM Manipulation): The core functionality of the project is implemented using JavaScript with a focus on DOM manipulation. It handles fetching data from the TVmaze API, creating and rendering episodes dynamically on the page, and managing user interactions.
 
 ## Project Structure
 
@@ -77,8 +77,8 @@ If you would like to contribute to this project, please follow the standard GitH
 
 ## Contact
 
-If you have any questions or need further assistance with this project, feel free to reach out to the developer, Natalie Zablotska, via her LinkedIn profile: [Natalie's LinkedIn](https://www.linkedin.com/in/nataliia-zablotska/).
+If you have any questions, feel free to reach out to the developer, Natalie Zablotska, via her LinkedIn profile: [Natalie's LinkedIn](https://www.linkedin.com/in/nataliia-zablotska/).
 
 ## Acknowledgments
 
-The data for this project comes from [TVmaze](https://www.tvmaze.com/). A big thank you to the CYF community for creating such and interesting challenge to learn DOM! 
+The data for this project comes from [TVmaze](https://www.tvmaze.com/). A big thank you to the CYF community for creating such an interesting challenge to learn DOM! 
